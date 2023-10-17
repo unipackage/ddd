@@ -1,0 +1,35 @@
+{
+  "name": "@unipackage/ddd",
+  "version": "0.1.0",
+  "description": "ddd",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf ./dist;npx tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unipackage/ddd.git"
+  },
+  "keywords": [
+    "ddd",
+    "ts",
+    "js"
+  ],
+  "author": "waynewyang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/unipackage/ddd/issues"
+  },
+  "homepage": "https://github.com/unipackage/ddd#readme",
+  "dependencies": {
+    "@types/lodash": "^4.14.199",
+    "@types/node": "20.6.2",
+    "fp-ts": "^2.16.1",
+    "immutable": "^5.0.0-beta.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}
