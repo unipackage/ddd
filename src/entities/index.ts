@@ -1,6 +1,6 @@
-import { Entity } from "../entity"
+import { Entity, EntityProperties } from "../entity"
 
-export abstract class Entities<T extends Entity<Object>> {
+export abstract class Entities<T extends Entity<EntityProperties>> {
     protected entities: T[]
 
     constructor(entities: T[]) {

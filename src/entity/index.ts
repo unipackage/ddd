@@ -1,30 +1,31 @@
 import { ValueObject } from "../valueObject"
-import { MemberVariables } from "@unipackage/utils"
 import { isEqual } from "lodash"
 
-export abstract class Entity<T extends Object> {
+export interface EntityProperties {
+    id?: any
     [key: string]: any
+}
 
-    constructor(properties: MemberVariables<T> & { id: any }) {
-        if (
-            !properties ||
-            typeof properties !== "object" ||
-            properties.id === undefined
-        ) {
+export abstract class Entity<T extends EntityProperties> {
+    public properties: T
+
+    constructor(properties: T) {
+        if (!properties || typeof properties !== "object") {
             throw new Error("Invalid data provided to the constructor")
         }
-        Object.assign(this, properties)
+        this.properties = properties
     }
 
     protected initialize() {}
 
     protected getKeys(): string[] {
-        return Object.keys(this)
+        return Object.keys(this.properties)
     }
 
     equal(other: T, fields?: Array<keyof T & keyof this>): boolean {
         const properties =
-            fields ?? (Object.keys(this) as Array<keyof T & keyof this>)
+            fields ??
+            (Object.keys(this.properties) as Array<keyof T & keyof this>)
         for (const property of properties) {
             if (!isEqual(this[property], other[property])) {
                 return false
@@ -46,39 +47,38 @@ export abstract class Entity<T extends Object> {
     }
 
     getId(): any {
-        return this.id
+        return this.properties.id
     }
 
     serialize(): string {
-        return JSON.stringify(this)
+        return JSON.stringify(this.properties)
     }
 
     deserialize(data: string): void {
         try {
-            const parsedData = JSON.parse(data)
-            Object.assign(this, parsedData)
+            this.properties = JSON.parse(data)
         } catch (error: any) {
             throw new Error("Failed to deserialize the data. " + error.message)
         }
     }
 
     clone(): Entity<T> {
-        const clonedData = JSON.parse(JSON.stringify(this))
+        const clonedData = JSON.parse(JSON.stringify(this.properties))
         return new (this.constructor as any)(clonedData)
     }
 
     //no use
     compareProperties(entity: Entity<T>): boolean {
-        const thisKeys = Object.keys(this)
-        const entityKeys = Object.keys(entity)
+        const thisKeys = Object.keys(this.properties)
+        const entityKeys = Object.keys(entity.properties)
 
         if (thisKeys.length !== entityKeys.length) {
             return false
         }
 
         for (const key of thisKeys) {
-            const thisValue = this[key]
-            const entityValue = entity[key]
+            const thisValue = this.properties[key]
+            const entityValue = entity.properties[key]
 
             if (
                 thisValue instanceof ValueObject &&
