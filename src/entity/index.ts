@@ -1,7 +1,7 @@
 import { ValueObject } from "../valueObject"
 
 export interface EntityProperties {
-    id: string | number
+    id: any
     [key: string]: any
 }
 
@@ -37,7 +37,7 @@ export abstract class Entity<T extends EntityProperties> {
         return true
     }
 
-    getId(): string | number {
+    getId(): any {
         return this.properties.id
     }
 
