@@ -1,31 +1,37 @@
 import { ValueObject } from "../valueObject"
 import { isEqual } from "lodash"
+import { TypeFromProperties } from "@unipackage/utils"
 
-export interface EntityProperties {
-    id?: any
-    [key: string]: any
+export interface EntityInterface {
+    clone(): this
+    compareProperties(entity: this): boolean
+    deserialize(data: string): void
+    equal(other: this, fields?: Array<keyof this>): boolean
+    getName(): string
+    getType(): string
+    getId(): any
+    serialize(): string
 }
 
-export abstract class Entity<T extends EntityProperties> {
-    public properties: T
+export abstract class Entity<T extends Object> implements EntityInterface {
+    id?: any;
+    [key: string]: any
 
-    constructor(properties: T) {
-        if (!properties || typeof properties !== "object") {
+    constructor(data: TypeFromProperties<T>) {
+        if (!data || typeof data !== "object") {
             throw new Error("Invalid data provided to the constructor")
         }
-        this.properties = properties
+        Object.assign(this, data)
     }
 
     protected initialize() {}
 
     protected getKeys(): string[] {
-        return Object.keys(this.properties)
+        return Object.keys(this)
     }
 
-    equal(other: T, fields?: Array<keyof T & keyof this>): boolean {
-        const properties =
-            fields ??
-            (Object.keys(this.properties) as Array<keyof T & keyof this>)
+    equal(other: this, fields?: Array<keyof this>): boolean {
+        const properties = fields ?? (Object.keys(this) as Array<keyof this>)
         for (const property of properties) {
             if (!isEqual(this[property], other[property])) {
                 return false
@@ -47,11 +53,11 @@ export abstract class Entity<T extends EntityProperties> {
     }
 
     getId(): any {
-        return this.properties.id
+        return this.id
     }
 
     serialize(): string {
-        return JSON.stringify(this.properties)
+        return JSON.stringify(this)
     }
 
     deserialize(data: string): void {
@@ -62,23 +68,23 @@ export abstract class Entity<T extends EntityProperties> {
         }
     }
 
-    clone(): Entity<T> {
-        const clonedData = JSON.parse(JSON.stringify(this.properties))
+    clone(): this {
+        const clonedData = JSON.parse(JSON.stringify(this))
         return new (this.constructor as any)(clonedData)
     }
 
     //no use
-    compareProperties(entity: Entity<T>): boolean {
-        const thisKeys = Object.keys(this.properties)
-        const entityKeys = Object.keys(entity.properties)
+    compareProperties(entity: this): boolean {
+        const thisKeys = Object.keys(this)
+        const entityKeys = Object.keys(entity)
 
         if (thisKeys.length !== entityKeys.length) {
             return false
         }
 
         for (const key of thisKeys) {
-            const thisValue = this.properties[key]
-            const entityValue = entity.properties[key]
+            const thisValue = this[key]
+            const entityValue = entity[key]
 
             if (
                 thisValue instanceof ValueObject &&

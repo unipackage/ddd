@@ -1,14 +1,14 @@
-import { Entity, EntityProperties } from "../entity"
+import { Entity } from "../entity"
 import { Entities } from "../entities"
 
 export interface AggregateProperties {
     id: string | number
     name: string
     entities: {
-        [key: string]: Entity<EntityProperties>
+        [key: string]: Entity<Object>
     }
     entityCollections: {
-        [key: string]: Entities<Entity<EntityProperties>>
+        [key: string]: Entities<Entity<Object>>
     }
     extra: {
         [key: string]: any
@@ -38,17 +38,17 @@ export class Aggregate<T extends AggregateProperties> {
         )
     }
 
-    getEntityByKey(key: string): Entity<EntityProperties> | undefined {
+    getEntityByKey(key: string): Entity<Object> | undefined {
         return this.properties.entities[key]
     }
 
     getEntityCollectionsByKey(
         key: string
-    ): Entities<Entity<EntityProperties>> | undefined {
+    ): Entities<Entity<Object>> | undefined {
         return this.properties.entityCollections[key]
     }
 
-    addEntity(key: string, entity: Entity<EntityProperties>): void {
+    addEntity(key: string, entity: Entity<Object>): void {
         this.properties.entities[key] = entity
     }
 
@@ -56,10 +56,7 @@ export class Aggregate<T extends AggregateProperties> {
         delete this.properties.entities[key]
     }
 
-    addEntityCollections(
-        key: string,
-        entity: Entities<Entity<EntityProperties>>
-    ): void {
+    addEntityCollections(key: string, entity: Entities<Entity<Object>>): void {
         this.properties.entityCollections[key] = entity
     }
 
