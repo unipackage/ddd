@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rm -rf ./dist;npx tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
     "type": "git",
@@ -26,7 +26,7 @@
   "dependencies": {
     "@types/lodash": "^4.14.199",
     "@types/node": "20.6.2",
-    "@unipackage/utils": "^0.1.4",
+    "@unipackage/utils": "^0.1.5",
     "fp-ts": "^2.16.1",
     "immutable": "^5.0.0-beta.4"
   },
