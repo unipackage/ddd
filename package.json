@@ -1,6 +1,6 @@
 {
   "name": "@unipackage/ddd",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "ddd",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -25,7 +25,7 @@
     "js"
   ],
   "author": "waynewyang",
-  "license":  "MIT and APACHE",
+  "license": "MIT and APACHE",
   "bugs": {
     "url": "https://github.com/unipackage/ddd/issues"
   },
