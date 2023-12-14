@@ -148,4 +148,12 @@ export abstract class Entity<T extends Object> implements EntityInterface {
     getType(): string {
         return `${this.constructor.name}`
     }
+
+    /**
+     * Gets the identifier of the entity.
+     * @returns The identifier of the entity.
+     */
+    setId(id: any) {
+        this.id = id
+    }
 }
