@@ -33,7 +33,7 @@
   "homepage": "https://github.com/unipackage/ddd#readme",
   "dependencies": {
     "@types/lodash": "^4.14.199",
-    "@unipackage/utils": "^0.1.5",
+    "@unipackage/utils": "^1.0.0",
     "fp-ts": "^2.16.1",
     "immutable": "^5.0.0-beta.4"
   },

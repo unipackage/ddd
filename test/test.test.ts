@@ -18,6 +18,7 @@
  *  limitations under the respective licenses.
  ********************************************************************************/
 
+//@ts-ignore
 import assert from "assert"
 import { it } from "mocha"
 
