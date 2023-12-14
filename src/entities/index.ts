@@ -24,7 +24,7 @@ import { Entity } from "../entity"
  * Abstract class representing a collection of entities.
  * @template T - The type of entities in the collection, extending Entity<Object>.
  */
-export abstract class Entities<T extends Entity<Object>> {
+export class Entities<T extends Entity<Object>> {
     /**
      * The array of entities in the collection.
      */
