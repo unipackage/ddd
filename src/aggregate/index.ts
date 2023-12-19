@@ -20,18 +20,19 @@
 
 import { Entity } from "../entity"
 import { Entities } from "../entities"
+import { ValueFields } from "@unipackage/utils"
 
 /**
- * Properties of the aggregate.
+ * interface of the aggregate.
  */
-export interface AggregateProperties {
+export interface Aggregate<T extends Object> {
     readonly id: string | number
     name: string
     entities: {
-        [key: string]: Entity<Object>
+        [key: string]: Entity<T>
     }
     entityCollections: {
-        [key: string]: Entities<Entity<Object>>
+        [key: string]: Entities<Entity<T>>
     }
     extra: {
         [key: string]: any
@@ -42,18 +43,16 @@ export interface AggregateProperties {
  * Represents an aggregate.
  * @template T - Type of the aggregate properties.
  */
-export class Aggregate<T extends AggregateProperties> {
-    /**
-     * Properties of the aggregate.
-     */
-    private readonly properties: T
-
+export class Aggregate<T extends Object> {
     /**
      * Creates an instance of the aggregate.
-     * @param properties - The initial properties for the aggregate.
+     * @param data - The initial data for the entity.
      */
-    constructor(properties: T) {
-        this.properties = properties
+    constructor(data: ValueFields<T>) {
+        if (!data || typeof data !== "object") {
+            throw new Error("Invalid data provided to the constructor")
+        }
+        Object.assign(this, data)
     }
 
     /**
@@ -61,7 +60,7 @@ export class Aggregate<T extends AggregateProperties> {
      * @returns The ID of the aggregate.
      */
     getId(): string | number {
-        return this.properties.id
+        return this.id
     }
 
     /**
@@ -69,7 +68,7 @@ export class Aggregate<T extends AggregateProperties> {
      * @returns The name of the aggregate.
      */
     getName(): string {
-        return this.properties.name
+        return this.name
     }
 
     /**
@@ -77,10 +76,10 @@ export class Aggregate<T extends AggregateProperties> {
      * @returns The total count of entity types.
      */
     getEntityTypeCount(): number {
-        const entitiesCount = Object.keys(this.properties.entities).length
+        const entitiesCount = Object.keys(this.entities).length
 
         const entityCollectionsCount = Object.values(
-            this.properties.entityCollections
+            this.entityCollections
         ).reduce(
             (count, entityCollection) => count + entityCollection.count(),
             0
@@ -95,7 +94,7 @@ export class Aggregate<T extends AggregateProperties> {
      * @returns The entity with the specified key, or undefined if not found.
      */
     getEntityByKey(key: string): Entity<Object> | undefined {
-        return this.properties.entities[key]
+        return this.entities[key]
     }
 
     /**
@@ -106,7 +105,7 @@ export class Aggregate<T extends AggregateProperties> {
     getEntityCollectionsByKey(
         key: string
     ): Entities<Entity<Object>> | undefined {
-        return this.properties.entityCollections[key]
+        return this.entityCollections[key]
     }
 
     /**
@@ -115,7 +114,7 @@ export class Aggregate<T extends AggregateProperties> {
      * @param entity - The entity to add.
      */
     addEntity(key: string, entity: Entity<Object>): void {
-        this.properties.entities[key] = entity
+        this.entities[key] = entity
     }
 
     /**
@@ -123,7 +122,7 @@ export class Aggregate<T extends AggregateProperties> {
      * @param key - The key of the entity to remove.
      */
     removeEntity(key: string): void {
-        delete this.properties.entities[key]
+        delete this.entities[key]
     }
 
     /**
@@ -132,7 +131,7 @@ export class Aggregate<T extends AggregateProperties> {
      * @param entity - The entity collections to add.
      */
     addEntityCollections(key: string, entity: Entities<Entity<Object>>): void {
-        this.properties.entityCollections[key] = entity
+        this.entityCollections[key] = entity
     }
 
     /**
@@ -140,7 +139,7 @@ export class Aggregate<T extends AggregateProperties> {
      * @param key - The key of the entity collections to remove.
      */
     removeEntityCollections(key: string): void {
-        delete this.properties.entityCollections[key]
+        delete this.entityCollections[key]
     }
 
     /**
@@ -149,7 +148,7 @@ export class Aggregate<T extends AggregateProperties> {
      * @returns The extra information with the specified key, or undefined if not found.
      */
     getExtraInfo(key: string): any {
-        return this.properties.extra[key]
+        return this.extra[key]
     }
 
     /**
@@ -158,6 +157,6 @@ export class Aggregate<T extends AggregateProperties> {
      * @param value - The value of the extra information.
      */
     setExtraInfo(key: string, value: any): void {
-        this.properties.extra[key] = value
+        this.extra[key] = value
     }
 }
