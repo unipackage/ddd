@@ -93,7 +93,7 @@ export class Aggregate<T extends Object> {
      * @param key - The key of the entity.
      * @returns The entity with the specified key, or undefined if not found.
      */
-    getEntityByKey(key: string): Entity<Object> | undefined {
+    getEntityByKey(key: string): Entity<T> | undefined {
         return this.entities[key]
     }
 
@@ -102,9 +102,7 @@ export class Aggregate<T extends Object> {
      * @param key - The key of the entity collections.
      * @returns The entity collections with the specified key, or undefined if not found.
      */
-    getEntityCollectionsByKey(
-        key: string
-    ): Entities<Entity<Object>> | undefined {
+    getEntityCollectionsByKey(key: string): Entities<Entity<T>> | undefined {
         return this.entityCollections[key]
     }
 
@@ -113,7 +111,7 @@ export class Aggregate<T extends Object> {
      * @param key - The key of the entity.
      * @param entity - The entity to add.
      */
-    addEntity(key: string, entity: Entity<Object>): void {
+    addEntity(key: string, entity: Entity<T>): void {
         this.entities[key] = entity
     }
 
@@ -130,7 +128,7 @@ export class Aggregate<T extends Object> {
      * @param key - The key of the entity collections.
      * @param entity - The entity collections to add.
      */
-    addEntityCollections(key: string, entity: Entities<Entity<Object>>): void {
+    addEntityCollections(key: string, entity: Entities<Entity<T>>): void {
         this.entityCollections[key] = entity
     }
 

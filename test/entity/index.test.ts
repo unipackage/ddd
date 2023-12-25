@@ -22,6 +22,7 @@ import { expect } from "chai"
 import { it } from "mocha"
 import { Entity } from "../../src/entity"
 import { ValueFields } from "@unipackage/utils"
+import assert from "assert"
 
 // Sample class extending Entity for testing
 class SampleEntity extends Entity<{
@@ -53,6 +54,7 @@ describe("Entity", () => {
         }
         const entity = new SampleEntity(data)
         expect(entity).to.be.an.instanceOf(SampleEntity)
+        assert.deepStrictEqual(entity.value(), data)
     })
 
     it("[clone test]: should clone the entity", () => {

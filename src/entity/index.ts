@@ -156,4 +156,20 @@ export abstract class Entity<T extends Object> implements EntityInterface {
     setId(id: any) {
         this.id = id
     }
+
+    /**
+     * Gets the value of the entity.
+     * @returns ValueFields<T>.
+     */
+    value(): ValueFields<T> {
+        const result: Record<string, any> = {}
+
+        Object.entries(this).forEach(([key, value]) => {
+            if (this.hasOwnProperty(key) && typeof value !== "function") {
+                result[key] = value instanceof Entity ? value.clone() : value
+            }
+        })
+
+        return result as ValueFields<T>
+    }
 }
