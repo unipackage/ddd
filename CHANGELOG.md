@@ -1,5 +1,18 @@
 
 
+# [1.0.0](https://github.com/unipackage/ddd/compare/v0.1.7...v1.0.0) (2023-12-26)
+
+
+### Features
+
+* 🎸 release version 1 ([6de9684](https://github.com/unipackage/ddd/commit/6de9684048481daf6ad074e7b18598a0f8be3ced))
+* 🎸 update Aggregate ([2ccc054](https://github.com/unipackage/ddd/commit/2ccc0540353a77a9d97e1163558c915e823fcc60))
+
+
+### BREAKING CHANGES
+
+* 🧨 release version 1
+
 ## [0.1.7](https://github.com/unipackage/ddd/compare/v0.1.6...v0.1.7) (2023-12-14)
 
 
