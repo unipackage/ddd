@@ -1,5 +1,12 @@
 
 
+# [1.1.0](https://github.com/unipackage/ddd/compare/v1.0.0...v1.1.0) (2023-12-28)
+
+
+### Features
+
+* 🎸 update utils to v1.4 ([3bfb091](https://github.com/unipackage/ddd/commit/3bfb09110d9784375c4391314d5f8d32114bc626))
+
 # [1.0.0](https://github.com/unipackage/ddd/compare/v0.1.7...v1.0.0) (2023-12-26)
 
 
